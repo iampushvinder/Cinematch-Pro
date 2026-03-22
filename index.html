@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch PRO | Mood-Based IMDb Discovery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="text-slate-200">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
+                <div class="bg-yellow-500 p-2 rounded-lg text-black">
+                    <i data-lucide="clapperboard" class="w-5 h-5"></i>
+                </div>
+                <h1 class="text-xl font-extrabold tracking-tighter text-white uppercase">CineMatch <span class="text-yellow-500">PRO</span></h1>
+            </div>
+            
+            <div class="relative w-full max-w-xl ml-4">
+                <i data-lucide="search" class="absolute left-4 top-3 w-4 h-4 text-slate-500"></i>
+                <input type="text" id="searchInput" placeholder="Search movies, actors, or release years..." class="bg-slate-900 border border-slate-800 rounded-full pl-11 pr-4 py-2.5 text-sm w-full focus:ring-2 focus:ring-yellow-500 outline-none transition shadow-inner">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div id="heroSection" class="relative w-full h-[60vh] flex items-end pb-20 px-6 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img id="heroImage" src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover opacity-30" alt="Hero Background">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto w-full">
+            <span class="bg-yellow-500 text-black text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-sm mb-4 inline-block">Trending Now</span>
+            <h2 id="heroTitle" class="text-5xl md:text-7xl font-black text-white mb-4 uppercase italic tracking-tighter">Loading...</h2>
+            <div class="flex gap-4 items-center">
+                <button onclick="openHeroDetails()" class="bg-white text-black font-bold px-8 py-3 rounded-full flex items-center gap-2 hover:bg-yellow-500 transition-colors">
+                    <i data-lucide="info" class="w-5 h-5"></i> View Details
+                </button>
+                <div class="text-slate-400 font-semibold border-l border-slate-700 pl-4">
+                    <p id="heroMeta">2026 • Sci-Fi • 2h 45m</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        
+        <!-- Mood Engine Section -->
+        <div class="mb-16">
+            <div class="flex items-center gap-3 mb-6">
+                <i data-lucide="sparkles" class="text-yellow-500 w-6 h-6"></i>
+                <h3 class="text-xl font-bold text-white uppercase tracking-widest">How are you feeling?</h3>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                <button id="mood-happy" onclick="fetchByMood('happy')" class="mood-chip group flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-900 border border-slate-800 transition-all">
+                    <span class="text-2xl">😊</span>
+                    <span class="text-xs font-bold uppercase tracking-tighter text-slate-400 transition-colors">Happy</span>
+                </button>
+                <button id="mood-dark" onclick="fetchByMood('dark')" class="mood-chip group flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-900 border border-slate-800 transition-all">
+                    <span class="text-2xl">🌑</span>
+                    <span class="text-xs font-bold uppercase tracking-tighter text-slate-400 transition-colors">Dark</span>
+                </button>
+                <button id="mood-excited" onclick="fetchByMood('excited')" class="mood-chip group flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-900 border border-slate-800 transition-all">
+                    <span class="text-2xl">🔥</span>
+                    <span class="text-xs font-bold uppercase tracking-tighter text-slate-400 transition-colors">Excited</span>
+                </button>
+                <button id="mood-romantic" onclick="fetchByMood('romantic')" class="mood-chip group flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-900 border border-slate-800 transition-all">
+                    <span class="text-2xl">💖</span>
+                    <span class="text-xs font-bold uppercase tracking-tighter text-slate-400 transition-colors">Romantic</span>
+                </button>
+                <button id="mood-scared" onclick="fetchByMood('scared')" class="mood-chip group flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-900 border border-slate-800 transition-all">
+                    <span class="text-2xl">😱</span>
+                    <span class="text-xs font-bold uppercase tracking-tighter text-slate-400 transition-colors">Scared</span>
+                </button>
+                <button id="mood-thoughtful" onclick="fetchByMood('thoughtful')" class="mood-chip group flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-900 border border-slate-800 transition-all">
+                    <span class="text-2xl">🧠</span>
+                    <span class="text-xs font-bold uppercase tracking-tighter text-slate-400 transition-colors">Thinker</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="flex gap-4 mb-10 overflow-x-auto pb-4 hide-scrollbar">
+            <button id="btnTrending" class="category-btn whitespace-nowrap bg-slate-900 text-slate-400 px-6 py-2 rounded-full font-bold text-sm hover:bg-slate-800 transition">Trending</button>
+            <button id="btnUpcoming" class="category-btn whitespace-nowrap bg-slate-900 text-slate-400 px-6 py-2 rounded-full font-bold text-sm hover:bg-slate-800 transition">Upcoming</button>
+            <button id="btnMarvel" onclick="fetchCategory('Marvel', 'Marvel Universe', 'btnMarvel')" class="category-btn whitespace-nowrap bg-slate-900 text-slate-400 px-6 py-2 rounded-full font-bold text-sm hover:bg-slate-800 transition">Marvel</button>
+            <button id="btnOscar" onclick="fetchCategory('Oscar', 'Award Winners', 'btnOscar')" class="category-btn whitespace-nowrap bg-slate-900 text-slate-400 px-6 py-2 rounded-full font-bold text-sm hover:bg-slate-800 transition">Oscar Winners</button>
+        </div>
+
+        <div id="sectionHeader" class="mb-10">
+            <h2 id="gridTitle" class="text-3xl font-extrabold text-white uppercase tracking-tighter">Featured Picks</h2>
+            <p id="gridSubtitle" class="text-slate-500 mt-1 italic">Real-time data synced from IMDb servers.</p>
+        </div>
+
+        <!-- Movie Grid -->
+        <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+            <div class="col-span-full py-20 text-center">
+                <div class="custom-loader w-12 h-12 rounded-full mx-auto mb-4"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Enhanced Movie Detail Modal -->
+    <div id="movieModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="closeModal()"></div>
+        <div class="relative glass-card max-w-5xl w-full rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] border-yellow-500/20">
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-10 p-2 bg-black/50 rounded-full hover:bg-yellow-500 hover:text-black transition">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <img id="modalPoster" src="" alt="Poster" class="w-full md:w-2/5 object-cover">
+            
+            <div class="p-8 md:p-12 overflow-y-auto flex-1">
+                <div class="flex flex-wrap items-center gap-3 mb-6">
+                    <span id="modalRating" class="bg-yellow-500 text-black font-black px-3 py-1 rounded text-sm italic">IMDb 0.0</span>
+                    <span id="modalRuntime" class="bg-slate-800 text-slate-300 px-3 py-1 rounded text-xs font-bold">120 min</span>
+                    <span id="modalGenre" class="bg-slate-800 text-indigo-400 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">Genre</span>
+                </div>
+
+                <h2 id="modalTitle" class="text-4xl md:text-5xl font-black text-white mb-2 uppercase leading-none">Movie Title</h2>
+                <p id="modalYearCountry" class="text-slate-500 font-bold mb-6 italic tracking-wide">2026 • USA</p>
+                
+                <div class="space-y-8">
+                    <div>
+                        <h4 class="text-yellow-500 uppercase text-xs font-black tracking-[0.2em] mb-2">The Synopsis</h4>
+                        <p id="modalPlot" class="text-slate-300 leading-relaxed text-lg">Detailed plot info...</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-slate-500 uppercase text-xs font-black tracking-[0.2em] mb-2">Director</h4>
+                            <p id="modalDirector" class="text-white text-lg font-semibold">Director Name</p>
+                        </div>
+                        <div>
+                            <h4 class="text-slate-500 uppercase text-xs font-black tracking-[0.2em] mb-2">Writers</h4>
+                            <p id="modalWriters" class="text-white text-lg font-semibold">Writer Names</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-slate-500 uppercase text-xs font-black tracking-[0.2em] mb-4 text-yellow-500/50">Lead Cast Members</h4>
+                        <div id="modalCast" class="text-slate-300 grid grid-cols-1 gap-1 text-base">
+                            <!-- Cast list -->
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-800 grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <span class="block text-slate-500 text-[10px] font-black uppercase">Metascore</span>
+                            <span id="modalMetascore" class="text-xl font-bold text-white">N/A</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-slate-500 text-[10px] font-black uppercase">Awards</span>
+                            <span id="modalAwards" class="text-sm font-bold text-white truncate">N/A</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-slate-500 text-[10px] font-black uppercase">Box Office</span>
+                            <span id="modalBoxOffice" class="text-sm font-bold text-white">N/A</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-t border-slate-800 mt-20 py-12 text-center">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-center gap-6 mb-8 text-slate-400">
+                <i data-lucide="facebook" class="w-5 h-5 cursor-pointer hover:text-yellow-500"></i>
+                <i data-lucide="twitter" class="w-5 h-5 cursor-pointer hover:text-yellow-500"></i>
+                <i data-lucide="instagram" class="w-5 h-5 cursor-pointer hover:text-yellow-500"></i>
+            </div>
+            <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest">© 2026 CineMatch Global • Data provided by OMDb API & IMDb Servers</p>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>

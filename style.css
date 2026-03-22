@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #020617;
+}
+
+.glass-card {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.movie-card:hover .poster-overlay {
+    opacity: 1;
+}
+
+.custom-loader {
+    border: 3px solid rgba(234, 179, 8, 0.1);
+    border-top-color: #eab308;
+    animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+    to {transform: rotate(360deg);}
+}
+
+.poster-img {
+    aspect-ratio: 2/3;
+    object-fit: cover;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.mood-chip {
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.mood-chip:hover {
+    background-color: #1e293b; /* slate-800 */
+}
+
+.mood-chip.active {
+    background-color: #eab308 !important;
+    color: #000 !important;
+    box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4);
+    transform: scale(1.05);
+    border-color: #eab308;
+}
+
+.mood-chip.active span {
+    color: #000 !important;
+}    
+
+/* Improved Category Button States */
+.category-btn {
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+.category-btn.active {
+    background-color: #eab308 !important;
+    color: #000 !important;
+    box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4);
+    transform: scale(1.05);
+}
