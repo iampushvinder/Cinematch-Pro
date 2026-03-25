@@ -54,6 +54,9 @@ body {
     transform: scale(1.05);
     border-color: #eab308;
 }
+.mood-chip.active span{
+    color: #000 !important;
+}
 
 .category-btn {
     transition: all 0.2s ease;
