@@ -44,7 +44,7 @@ body {
 }
 
 .mood-chip:hover {
-    background-color: #1e293b; /* slate-800 */
+    background-color: #1e293b; 
 }
 
 .mood-chip.active {
@@ -55,11 +55,6 @@ body {
     border-color: #eab308;
 }
 
-.mood-chip.active span {
-    color: #000 !important;
-}    
-
-/* Improved Category Button States */
 .category-btn {
     transition: all 0.2s ease;
     border: 1px solid transparent;
@@ -69,4 +64,54 @@ body {
     color: #000 !important;
     box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4);
     transform: scale(1.05);
+}
+
+/* Slider Styles */
+.slider-line {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    width: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+}
+.slider-line:hover {
+    background: rgba(255,255,255,0.3);
+}
+.slider-line.active-bar {
+    width: 4rem; /* Active is longer */
+    background: rgba(255,255,255,0.2);
+}
+.slider-line-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: #eab308;
+    animation: progress 5s linear forwards;
+}
+@keyframes progress {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+/* Search Animation Classes */
+#heroSection, #filterSection {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 1000px;
+    opacity: 1;
+    overflow: hidden;
+}
+.searching #heroSection, .searching #filterSection {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    pointer-events: none;
 }
