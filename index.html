@@ -125,20 +125,25 @@
             <button onclick="closeModal()" class="absolute top-6 right-6 z-10 p-2 bg-black/50 rounded-full hover:bg-yellow-500 hover:text-black transition">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
+            
             <img id="modalPoster" src="" alt="Poster" class="w-full md:w-2/5 object-cover">
+            
             <div class="p-8 md:p-12 overflow-y-auto flex-1">
                 <div class="flex flex-wrap items-center gap-3 mb-6">
                     <span id="modalRating" class="bg-yellow-500 text-black font-black px-3 py-1 rounded text-sm italic">IMDb 0.0</span>
                     <span id="modalRuntime" class="bg-slate-800 text-slate-300 px-3 py-1 rounded text-xs font-bold">120 min</span>
                     <span id="modalGenre" class="bg-slate-800 text-indigo-400 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">Genre</span>
                 </div>
+
                 <h2 id="modalTitle" class="text-4xl md:text-5xl font-black text-white mb-2 uppercase leading-none">Movie Title</h2>
                 <p id="modalYearCountry" class="text-slate-500 font-bold mb-6 italic tracking-wide">2026 • USA</p>
+                
                 <div class="space-y-8">
                     <div>
                         <h4 class="text-yellow-500 uppercase text-xs font-black tracking-[0.2em] mb-2">The Synopsis</h4>
                         <p id="modalPlot" class="text-slate-300 leading-relaxed text-lg">Detailed plot info...</p>
                     </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         <div>
                             <h4 class="text-slate-500 uppercase text-xs font-black tracking-[0.2em] mb-2">Director</h4>
@@ -149,9 +154,25 @@
                             <p id="modalWriters" class="text-white text-lg font-semibold">Writer Names</p>
                         </div>
                     </div>
+
                     <div>
                         <h4 class="text-slate-500 uppercase text-xs font-black tracking-[0.2em] mb-4 text-yellow-500/50">Lead Cast Members</h4>
                         <div id="modalCast" class="text-slate-300 grid grid-cols-1 gap-1 text-base"></div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-800 grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <span class="block text-slate-500 text-[10px] font-black uppercase">Metascore</span>
+                            <span id="modalMetascore" class="text-xl font-bold text-white">N/A</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-slate-500 text-[10px] font-black uppercase">Awards</span>
+                            <span id="modalAwards" class="text-sm font-bold text-white truncate">N/A</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-slate-500 text-[10px] font-black uppercase">Box Office</span>
+                            <span id="modalBoxOffice" class="text-sm font-bold text-white">N/A</span>
+                        </div>
                     </div>
                 </div>
             </div>
