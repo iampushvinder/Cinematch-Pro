@@ -120,17 +120,28 @@ async function fetchMovieDetails(id) {
     try {
         const response = await fetch(`${BASE_URL}&i=${id}&plot=full`);
         const movie = await response.json();
+        
         document.getElementById('modalPoster').src = movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/500x750?text=No+Poster";
         document.getElementById('modalTitle').innerText = movie.Title;
         document.getElementById('modalRating').innerText = `IMDb ${movie.imdbRating}`;
         document.getElementById('modalPlot').innerText = movie.Plot;
-        const castArray = movie.Actors.split(', ');
+        document.getElementById('modalYearCountry').innerText = `${movie.Year} • ${movie.Country}`;
+        document.getElementById('modalRuntime').innerText = movie.Runtime;
+        document.getElementById('modalGenre').innerText = movie.Genre;
+        document.getElementById('modalDirector').innerText = movie.Director || 'N/A';
+        document.getElementById('modalWriters').innerText = movie.Writer || 'N/A';
+        document.getElementById('modalMetascore').innerText = movie.Metascore || 'N/A';
+        document.getElementById('modalAwards').innerText = movie.Awards || 'N/A';
+        document.getElementById('modalBoxOffice').innerText = movie.BoxOffice || 'N/A';
+
+        const castArray = movie.Actors ? movie.Actors.split(', ') : [];
         document.getElementById('modalCast').innerHTML = castArray.map(actor => 
             `<div class="flex items-center gap-2 py-2 border-b border-slate-800/50">
                 <div class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-yellow-500">${actor[0]}</div>
                 <span class="font-medium text-sm">${actor}</span>
             </div>`
         ).join('');
+        
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
     } catch (err) { console.error(err); }
