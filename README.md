@@ -41,4 +41,4 @@ CineMatch PRO is a modern, high-performance web application designed to help use
 ### 📥 Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/cinematch-pro.git
+git clone https://github.com/iampushvinder/cinematch-pro.git
